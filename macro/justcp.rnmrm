@@ -1,5 +1,4 @@
 !CP and calibration macro
-!08/02/06
 
 macarg submac
 DFLT submac,OPTIONS, 'Enter submacro:'
@@ -7,8 +6,6 @@ GOTO .&submac
 mexit
 
 .setup
-lclarg hchn,1
-lclarg cchn,2
 chn 21
 msg 'CP and calibration'
 ex &macro$
@@ -24,7 +21,6 @@ mexit
 
 .setupn15
 chn 31
-;suchnseq 3,&nchn&hchn&cchn
 ex &macro$
 unit /freq khz
 &macro$ general
@@ -37,9 +33,6 @@ mexit
 
 
 .general
-!masctl getset
-!calc 2 ndec 1000000 %masset div >taur
-!p rotor %taur
 suacq 22.40,512,3.0,60.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
 mexit
@@ -133,7 +126,6 @@ supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
 !chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,50,60,,,64
-;supwxval 1,cpdly,ramp,40,60,,,64
 pwx 1 flip %pc50
 supls 1,flipup,>,0.0
 supls 1,flipdn,>,0.0
@@ -166,11 +158,6 @@ supls 2,flipdn,>
 supls 2,flipup,>
 super 2,sample,on,*,%ph71,6.9
 supsxval 2,sample,tppm,22,0             ;on for dec opt
-
-!adamantane
-;super 2,sample,on,*,%ph50,5.6
-;supsxval 2,sample,tppm,10,0
-
 psxex 2 *&macro$
 mexit
 
@@ -239,5 +226,4 @@ MEXIT
 
 .PSXEX2
 SUPSXEX 2,SAMPLE,TPPM			;on for dec opt
-;SUPSXEX 2,SAMPLE,SPINAL
 MEXIT
