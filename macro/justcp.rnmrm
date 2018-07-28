@@ -1,0 +1,243 @@
+!CP and calibration macro
+!08/02/06
+
+macarg submac
+DFLT submac,OPTIONS, 'Enter submacro:'
+GOTO .&submac
+mexit
+
+.setup
+lclarg hchn,1
+lclarg cchn,2
+chn 21
+msg 'CP and calibration'
+ex &macro$
+unit /freq ppm
+&macro$ general
+&macro$ C13param
+&macro$ H1param
+&macro$ crosspol
+titlea "JustCP"
+msg 'Chn 1 is set to C13'
+gain 40
+mexit
+
+.setupn15
+chn 31
+;suchnseq 3,&nchn&hchn&cchn
+ex &macro$
+unit /freq khz
+&macro$ general
+&macro$ N15param
+&macro$ H1param
+&macro$ crosspol
+titlea "JustCP"
+msg 'chn 1 is set to n15'
+mexit
+
+
+.general
+!masctl getset
+!calc 2 ndec 1000000 %masset div >taur
+!p rotor %taur
+suacq 22.40,512,3.0,60.0,4,0,0
+!dw,size,rd,gain,na,ndly,p8
+mexit
+
+.onepls
+p cppls 0
+d cpdly 0
+ppflg hard on
+p flipup 0
+p flipdn 2.5
+pwx 1 flip %pc100
+ppmd flipdn 1234
+amd         2341
+mexit
+
+.adam
+f 1 3.45
+pwx 2 sample2 40
+p sample2 24
+dw 30
+size 4096
+d cpdly 10
+pwx 2 cpdly2 50
+mexit
+
+.crosspol
+supls 1,flipdn,>,0.0
+supls 1,flipup,>,0.0
+p sampdly 0
+p z 0
+p flipdn 0
+p flipup 0
+&macro$ cpppmd4
+msg 'only cross polarization'
+mexit
+
+.tune
+ppflg sample2 off
+supls 1,flipdn,>,0.0
+supls 1,flipup,>,0.0
+p sampdly 0
+supwxval 1,cpdly,ramp,40,40,,,64
+pwxex 1 *justcp
+d cpdly 0.5
+rd >>recdly
+rd 1
+sg
+msg 'Hit ENTER key to stop tuning'
+ASKYN
+QUIT
+RD &RECDLY
+PPFLG sample2 ON
+d cpdly 2.0
+&macro$ setup
+msg 'Decoupling is ON again!!!!'
+mexit
+
+.ccal
+!for calibration of carbon pulse powers
+ppflg hard on
+p z 100
+pwx 2 zfilter %ph12
+p sampdly 0
+p flipup 5
+p flipdn 5
+na 8
+f 1 21.97
+&macro$ ccalppmd
+msg 'CP followed by flipup and flipdn, adjust lengths & powers'
+mexit
+
+.ncal
+!for calibration of nitrogen pulse powers
+ppflg hard off
+p z 100
+pwx 2 zfilter 15
+p sampdly 0
+p flipup 5
+p flipdn 10
+na 8
+f 1 21.97
+&macro$ ccalppmd
+msg 'CP followed by flipup and flipdn, adjust lengths & powers'
+mexit
+
+.C13param
+!setup chn C13 ======================
+suchn 1,C13,8.1,100,90,%pc50
+!chn,nuc,freq,pwrh,pwrl,pwxh
+supls 1,cppls,0,2.5
+sudly 1,cpdly,0,1.5
+!chn,nam,pwx,dly
+supwxval 1,cpdly,ramp,50,60,,,64
+;supwxval 1,cpdly,ramp,40,60,,,64
+pwx 1 flip %pc50
+supls 1,flipup,>,0.0
+supls 1,flipdn,>,0.0
+pwxex 1 *&macro$
+mexit
+
+.N15param
+!setup chn N13 ======================
+suchn 1,N15,0,100,70,%pn50
+!chn,nuc,freq,pwrh,pwrl,pwxn
+supls 1,cppls,0,2.5
+sudly 1,cpdly,0,1.5
+!chn,nam,pwx,dly
+supwxval 1,cpdly,ramp,46,62,,,64
+pwx 1 flip %pn50
+supls 1,flipup,>,0.0
+supls 1,flipdn,>,0.0
+pwxex 1 *&macro$
+mexit
+
+
+.H1param
+!setup chn proton ===================
+suchn 2,H1,0,100,100,%ph100
+!setup pulses
+supls 2,cppls,%ph100
+sudly 2,cpdly,%ph50
+pwx 2 cwdec %ph83
+supls 2,flipdn,>
+supls 2,flipup,>
+super 2,sample,on,*,%ph71,6.9
+supsxval 2,sample,tppm,22,0             ;on for dec opt
+
+!adamantane
+;super 2,sample,on,*,%ph50,5.6
+;supsxval 2,sample,tppm,10,0
+
+psxex 2 *&macro$
+mexit
+
+.PPMDtest
+NAMD 4
+AMD           3412
+PPMD CPPLS    1
+PPMD CPDLYDEC 2
+PPMD CPDLY    1234
+mexit
+
+.CPPPMD4
+PPMD CPPLS    1
+PPMD CPDLYDEC 2
+PPMD CPDLY    1234
+AMD           3412
+NAMD 4
+msg 'just cp ppmd loaded'
+mexit
+
+.CPPPMD8
+PPMD CPPLS    1111 3333
+PPMD CPDLYDEC 2
+PPMD CPDLY    1234
+AMD           3412 1234
+NAMD 8
+msg 'just cp ppmd loaded'
+mexit
+
+.CCALPPMD
+PPMD CPPLS    1111 3333
+PPMD CPDLYDEC 2
+PPMD CPDLY    1
+PPMD FLIPUP   2
+PPMD FLIPDN   1234
+AMD           4123 2341
+NAMD 8
+msg 'justcp ppmd loaded'
+mexit
+
+.flipupPPMD
+PPMD CPPLS    1111 3333
+PPMD CPDLYDEC 2
+PPMD CPDLY    13
+PPMD FLIPUP   24
+PPMD FLIPDN   1
+AMD           2424 4242
+NAMD 8
+msg 'justcp ppmd loaded'
+mexit
+
+.PPMD1D
+PPMD CPPLS    1
+PPMD CPDLYDEC 2
+PPMD CPDLY    1
+PPMD FLIPUP   2
+PPMD FLIPDN   1234
+AMD           1234
+NAMD 4
+msg '1D ppmd, CYCLOPS on flipdn'
+mexit
+
+.PWXEX1
+SUPWXEX 1,CPDLY,RAMP
+MEXIT
+
+.PSXEX2
+SUPSXEX 2,SAMPLE,TPPM			;on for dec opt
+;SUPSXEX 2,SAMPLE,SPINAL
+MEXIT
