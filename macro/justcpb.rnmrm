@@ -8,7 +8,7 @@ mexit
 .setup
 chn 21
 msg 'CP and calibration'
-ex &macro$
+ex justcp
 unit /freq ppm
 &macro$ general
 &macro$ C13param
@@ -21,7 +21,7 @@ mexit
 
 .setupn15
 chn 31
-ex &macro$
+ex justcp
 unit /freq khz
 &macro$ general
 &macro$ N15param
