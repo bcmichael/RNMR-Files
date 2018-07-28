@@ -7,34 +7,30 @@ mexit
 
 .setup
 chn 21
-msg 'CP and calibration'
-ex justcp
-unit /freq ppm
 gosub general
 gosub C13param
-gosub H1param
 gosub crosspol
-titlea "JustCP"
 msg 'Chn 1 is set to C13'
 gain 40
 mexit
 
 .setupn15
 chn 31
-ex justcp
-unit /freq khz
 gosub general
 gosub N15param
-gosub H1param
 gosub crosspol
-titlea "JustCP"
 msg 'chn 1 is set to n15'
 mexit
 
 
 .general
+msg 'CP and calibration'
+titlea "JustCP"
+ex justcp
+unit /freq ppm
 suacq 22.40,512,3.0,60.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
+gosub H1param
 mexit
 
 .onepls
