@@ -10,10 +10,10 @@ chn 21
 msg 'CP and calibration'
 ex justcp
 unit /freq ppm
-&macro$ general
-&macro$ C13param
-&macro$ H1param
-&macro$ crosspol
+gosub general
+gosub C13param
+gosub H1param
+gosub crosspol
 titlea "JustCP"
 msg 'Chn 1 is set to C13'
 gain 40
@@ -23,10 +23,10 @@ mexit
 chn 31
 ex justcp
 unit /freq khz
-&macro$ general
-&macro$ N15param
-&macro$ H1param
-&macro$ crosspol
+gosub general
+gosub N15param
+gosub H1param
+gosub crosspol
 titlea "JustCP"
 msg 'chn 1 is set to n15'
 mexit
@@ -65,7 +65,7 @@ p sampdly 0
 p z 0
 p flipdn 0
 p flipup 0
-&macro$ cpppmd4
+gosub cpppmd4
 msg 'only cross polarization'
 mexit
 
@@ -86,7 +86,7 @@ QUIT
 RD &RECDLY
 PPFLG sample2 ON
 d cpdly 2.0
-&macro$ setup
+gosub setup
 msg 'Decoupling is ON again!!!!'
 mexit
 
@@ -100,7 +100,7 @@ p flipup 5
 p flipdn 5
 na 8
 f 1 21.97
-&macro$ ccalppmd
+gosub ccalppmd
 msg 'CP followed by flipup and flipdn, adjust lengths & powers'
 mexit
 
@@ -114,7 +114,7 @@ p flipup 5
 p flipdn 10
 na 8
 f 1 21.97
-&macro$ ccalppmd
+gosub ccalppmd
 msg 'CP followed by flipup and flipdn, adjust lengths & powers'
 mexit
 
