@@ -7,8 +7,9 @@ mexit
 
 .setup
 chn 21
+suchn 1,C13,8.1,100,90,50
+!chn,nuc,freq,pwrh,pwrl,pwxh
 gosub .general
-gosub .C13param
 msg 'Chn 1 is set to C13'
 gosub .crosspol
 gain 40
@@ -16,8 +17,9 @@ mexit
 
 .setupn15
 chn 31
+suchn 1,N15,0,100,70,50
+!chn,nuc,freq,pwrh,pwrl,pwxn
 gosub .general
-gosub .N15param
 msg 'Chn 1 is set to N15'
 gosub .crosspol
 mexit
@@ -31,6 +33,7 @@ unit /freq ppm
 suacq 22.40,512,3.0,60.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
 gosub .H1param
+gosub .chn1param
 mexit
 
 .onepls
@@ -113,10 +116,8 @@ gosub .ccalppmd
 msg 'CP followed by flipup and flipdn, adjust lengths & powers'
 mexit
 
-.C13param
+.chn1param
 !setup chn C13 ======================
-suchn 1,C13,8.1,100,90,50
-!chn,nuc,freq,pwrh,pwrl,pwxh
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
 !chn,nam,pwx,dly
@@ -126,21 +127,6 @@ supls 1,flipup,>,0.0
 supls 1,flipdn,>,0.0
 pwxex 1 *&macro$
 mexit
-
-.N15param
-!setup chn N13 ======================
-suchn 1,N15,0,100,70,50
-!chn,nuc,freq,pwrh,pwrl,pwxn
-supls 1,cppls,0,2.5
-sudly 1,cpdly,0,1.5
-!chn,nam,pwx,dly
-supwxval 1,cpdly,ramp,46,62,,,64
-pwx 1 flip 50
-supls 1,flipup,>,0.0
-supls 1,flipdn,>,0.0
-pwxex 1 *&macro$
-mexit
-
 
 .H1param
 !setup chn proton ===================
