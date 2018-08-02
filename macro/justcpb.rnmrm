@@ -9,8 +9,8 @@ mexit
 chn 21
 gosub .general
 gosub .C13param
-gosub .crosspol
 msg 'Chn 1 is set to C13'
+gosub .crosspol
 gain 40
 mexit
 
@@ -18,15 +18,15 @@ mexit
 chn 31
 gosub .general
 gosub .N15param
+msg 'Chn 1 is set to N15'
 gosub .crosspol
-msg 'chn 1 is set to n15'
 mexit
 
 
 .general
+ex justcp
 msg 'CP and calibration'
 titlea "JustCP"
-ex justcp
 unit /freq ppm
 suacq 22.40,512,3.0,60.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
@@ -62,7 +62,6 @@ p z 0
 p flipdn 0
 p flipup 0
 gosub .cpppmd4
-msg 'only cross polarization'
 mexit
 
 .tune
@@ -163,7 +162,7 @@ PPMD CPDLYDEC 2
 PPMD CPDLY    1234
 AMD           3412
 NAMD 4
-msg 'just cp ppmd loaded'
+msg 'JustCP ppmd loaded'
 mexit
 
 .CPPPMD8
@@ -172,7 +171,7 @@ PPMD CPDLYDEC 2
 PPMD CPDLY    1234
 AMD           3412 1234
 NAMD 8
-msg 'just cp ppmd loaded'
+msg 'JustCP ppmd loaded'
 mexit
 
 .CCALPPMD
@@ -183,7 +182,7 @@ PPMD FLIPUP   2
 PPMD FLIPDN   1234
 AMD           4123 2341
 NAMD 8
-msg 'justcp ppmd loaded'
+msg 'ccal ppmd loaded'
 mexit
 
 .PWXEX1
