@@ -12,7 +12,6 @@ suchn 1,C13,8.1,100,90,50
 gosub .general
 msg 'Chn 1 is set to C13'
 gosub .crosspol
-gain 40
 mexit
 
 .setupn15
@@ -34,6 +33,7 @@ suacq 22.40,512,3.0,60.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
 gosub .H1param
 gosub .chn1param
+gain 40
 mexit
 
 .onepls
