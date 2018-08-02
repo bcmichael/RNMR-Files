@@ -39,7 +39,7 @@ d cpdly 0
 ppflg hard on
 p flipup 0
 p flipdn 2.5
-pwx 1 flip %pc100
+pwx 1 flip 100
 ppmd flipdn 1234
 amd         2341
 mexit
@@ -90,7 +90,7 @@ mexit
 !for calibration of carbon pulse powers
 ppflg hard on
 p z 100
-pwx 2 zfilter %ph12
+pwx 2 zfilter 12
 p sampdly 0
 p flipup 5
 p flipdn 5
@@ -116,13 +116,13 @@ mexit
 
 .C13param
 !setup chn C13 ======================
-suchn 1,C13,8.1,100,90,%pc50
+suchn 1,C13,8.1,100,90,50
 !chn,nuc,freq,pwrh,pwrl,pwxh
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
 !chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,50,60,,,64
-pwx 1 flip %pc50
+pwx 1 flip 50
 supls 1,flipup,>,0.0
 supls 1,flipdn,>,0.0
 pwxex 1 *&macro$
@@ -130,13 +130,13 @@ mexit
 
 .N15param
 !setup chn N13 ======================
-suchn 1,N15,0,100,70,%pn50
+suchn 1,N15,0,100,70,50
 !chn,nuc,freq,pwrh,pwrl,pwxn
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
 !chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,46,62,,,64
-pwx 1 flip %pn50
+pwx 1 flip 50
 supls 1,flipup,>,0.0
 supls 1,flipdn,>,0.0
 pwxex 1 *&macro$
@@ -145,14 +145,14 @@ mexit
 
 .H1param
 !setup chn proton ===================
-suchn 2,H1,0,100,100,%ph100
+suchn 2,H1,0,100,100,100
 !setup pulses
-supls 2,cppls,%ph100
-sudly 2,cpdly,%ph50
-pwx 2 cwdec %ph83
+supls 2,cppls,100
+sudly 2,cpdly,50
+pwx 2 cwdec 83
 supls 2,flipdn,>
 supls 2,flipup,>
-super 2,sample,on,*,%ph71,6.9
+super 2,sample,on,*,71,6.9
 supsxval 2,sample,tppm,22,0             ;on for dec opt
 psxex 2 *&macro$
 mexit
