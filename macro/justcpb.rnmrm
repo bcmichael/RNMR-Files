@@ -1,7 +1,7 @@
 !CP and calibration macro
 
 macarg submac
-DFLT submac,OPTIONS, 'Enter submacro:'
+DFLT submac,setup, 'Enter submacro:'
 GOTO .&submac
 mexit
 
