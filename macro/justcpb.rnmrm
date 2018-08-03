@@ -75,18 +75,6 @@ gosub .ccalppmd
 msg 'CP followed by flipup and flipdn, adjust lengths & powers'
 mexit
 
-.ncal
-!for calibration of nitrogen pulse powers
-p z 100
-pwx 2 zfilter 15
-p flipup 5
-p flipdn 10
-na 8
-f 1 21.97
-gosub .ccalppmd
-msg 'CP followed by flipup and flipdn, adjust lengths & powers'
-mexit
-
 .chn1param
 !setup chn C13 ======================
 supls 1,cppls,0,2.5
