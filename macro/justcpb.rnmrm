@@ -21,9 +21,8 @@ gosub .general
 msg 'Chn 1 is set to N15'
 mexit
 
-
 .general
-ex justcp
+ex justcpb
 msg 'CP and calibration'
 titlea "JustCP"
 unit /freq ppm
@@ -32,7 +31,6 @@ suacq 22.40,512,3.0,60.0,4,0,0
 gosub .H1param
 gosub .chn1param
 gain 40
-p sampdly 0
 p z 0
 gosub .cpppmd4
 mexit
@@ -40,7 +38,6 @@ mexit
 .onepls
 p cppls 0
 d cpdly 0
-ppflg hard on
 p flipup 0
 p flipdn 2.5
 pwx 1 flip 100
@@ -62,7 +59,6 @@ mexit
 ppflg sample2 off
 supls 1,flipdn,>,0.0
 supls 1,flipup,>,0.0
-p sampdly 0
 supwxval 1,cpdly,ramp,40,40,,,64
 pwxex 1 *justcp
 d cpdly 0.5
@@ -81,10 +77,8 @@ mexit
 
 .ccal
 !for calibration of carbon pulse powers
-ppflg hard on
 p z 100
 pwx 2 zfilter 12
-p sampdly 0
 p flipup 5
 p flipdn 5
 na 8
@@ -95,10 +89,8 @@ mexit
 
 .ncal
 !for calibration of nitrogen pulse powers
-ppflg hard off
 p z 100
 pwx 2 zfilter 15
-p sampdly 0
 p flipup 5
 p flipdn 10
 na 8

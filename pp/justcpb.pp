@@ -1,23 +1,16 @@
-
 ;========================
 ;DEFINITIONS
 ;========================
 allocx pls pls_z alloc_usr
-allocx pls pls_rotor alloc_usr
-allocx pls pls_sampdly alloc_usr
 allocx pls pls_flipdn alloc_usr
-allocx pls pls_flipup alloc_usr 
+allocx pls pls_flipup alloc_usr
 
-allocx flag flag_sampdly alloc_usr
-allocx flag flag_hard alloc_usr
-
-allocx ppmd ppmd_cpdly 
+allocx ppmd ppmd_cpdly
 allocx ppmd ppmd_flipdn
 allocx ppmd ppmd_flipup
 
 allocx pwx pwx_zfilter
 allocx pwx pwx_flip
-
 
 ;==========================
 ;DEFINE OBSERVE PROGRAM C13
@@ -43,7 +36,6 @@ sample
 recycle
 finobs
 
-
 ;==========================
 ;DEFINE DECOUPLE PROGRAM H1
 ;==========================
@@ -59,9 +51,8 @@ use pwxdly cpdly pwrh 1 ppmd_cpdlydec * 1	;nam pwr psx ppmd beg size
 use pwxpls flipdn pwrh 1 ppmd_dec pwx_cwdec
 use pwxpls flipup pwrh 1 ppmd_dec pwx_cwdec
 use pwxpls z 1 0 pwx_zfilter
-use period sample tppm pwrh * 64 ppmd_dec	
+use period sample tppm pwrh * 64 ppmd_dec
 ;<pername> <seqnam> <pwr> <org> <size> <ppmd> ;* means use the default name
-
 
 inidec
 pwxpls cppls		;pls_cppls, psx=1, ppmd=cppls pwx 2 cppls2
