@@ -1,5 +1,4 @@
 !CP and calibration macro
-
 macarg submac
 DFLT submac,setup, 'Enter submacro:'
 GOTO .&submac
@@ -32,16 +31,6 @@ gosub .H1param
 gosub .chn1param
 p z 0
 gosub .cpppmd4
-mexit
-
-.onepls
-p cppls 0
-d cpdly 0
-p flipup 0
-p flipdn 2.5
-pwx 1 flip 100
-ppmd flipdn 1234
-amd         2341
 mexit
 
 .adam
