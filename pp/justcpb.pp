@@ -1,6 +1,6 @@
-;========================
-;DEFINITIONS
-;========================
+; ========================
+; DEFINITIONS
+; ========================
 allocx pls pls_z alloc_usr
 allocx pls pls_flipdn alloc_usr
 allocx pls pls_flipup alloc_usr
@@ -12,12 +12,12 @@ allocx ppmd ppmd_flipup
 allocx pwx pwx_zfilter
 allocx pwx pwx_flip
 
-;==========================
-;DEFINE OBSERVE PROGRAM C13
-;==========================
+; ==========================
+; DEFINE OBSERVE PROGRAM C13
+; ==========================
 
-;note, cppls means the 90 degree pulse on proton
-;note, cpdly means the contact time period
+; note, cppls means the 90 degree pulse on proton
+; note, cpdly means the contact time period
 
 use timer
 use pwxpls cppls				;nam,pwr,psx,ppmd,pwx
@@ -36,10 +36,10 @@ sample
 recycle
 finobs
 
-;==========================
-;DEFINE DECOUPLE PROGRAM H1
-;==========================
-;defines the proton channel details
+; ==========================
+; DEFINE DECOUPLE PROGRAM H1
+; ==========================
+; defines the proton channel details
 
 allocx ppmd ppmd_dec
 allocx ppmd ppmd_cppls
@@ -52,7 +52,7 @@ use pwxpls flipdn pwrh 1 ppmd_dec pwx_cwdec
 use pwxpls flipup pwrh 1 ppmd_dec pwx_cwdec
 use pwxpls z 1 0 pwx_zfilter
 use period sample tppm pwrh * 64 ppmd_dec
-;<pername> <seqnam> <pwr> <org> <size> <ppmd> ;* means use the default name
+; <pername> <seqnam> <pwr> <org> <size> <ppmd> ;* means use the default name
 
 inidec
 pwxpls cppls		;pls_cppls, psx=1, ppmd=cppls pwx 2 cppls2

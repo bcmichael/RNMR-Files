@@ -1,13 +1,13 @@
 macarg start end step dstrec param opt1 opt2
 
-!check for presence of required macros:
+; check for presence of required macros:
 macro reqchk
 reqchk mtools mparb log2
   rtnarg &error
-tst eq &error 1 
+tst eq &error 1
   mexit
 endtst
- 
+
 setidn >>idn0,>>idn1
 setidn "&macro$",*
 unit /time >>tunits
@@ -44,12 +44,12 @@ ifeq &param LS . .+1
     calc -1 ndec &endpnt >>endpnt
 msg "The final value will be &ENDPNT"
 
-! allocating destination record and setting parameters for second dimension
+; allocating destination record and setting parameters for second dimension
 size >>sizeaa
 
 mtools targetrec 5 &dstrec
 allb &DSTREC 2 &sizeaa &STEPS 1
-!mparb &DSTREC 2 2 TIME 1 &START &STEP REAL
+; mparb &DSTREC 2 2 TIME 1 &START &STEP REAL
 set rec &DSTREC,2,DIM,2
 set rec &DSTREC,2,DOM,UNKN
 set rec &DSTREC,2,SYN,1
@@ -64,15 +64,15 @@ titlea "Paropt %sample, %MAS kHz, &PARAM &opt1 &opt2, &START - &ENDPNT -
 iflcl mac . .nomac
   &param &opt1 &opt2 /paropt
    rtnarg initial
-  goto .+2  
+  goto .+2
 .nomac
   &PARAM &opt1 &opt2 >>INITIAL
-  
+
 &PARAM &opt1 &opt2 &START
 
 DO /LCL 1, &STEPS, LNR
     CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
-!   Make sure LOOP/LS values are integers:    
+  ; Make sure LOOP/LS values are integers:
     ifeq &param LS . .+1
        calc -1 ndec &cur >>cur
     &param &opt1 &opt2 &cur
@@ -82,8 +82,8 @@ DO /LCL 1, &STEPS, LNR
     setidn "&macro$","&lnr / &steps"
     set info lcl pretime
       date /epoch
-!    set timer on
-!optional delay before each acq
+   ; set timer on
+; optional delay before each acq
     tst lcl wttim
       msg "waiting &wttim sec..."
       wttim &wttim
@@ -91,23 +91,23 @@ DO /LCL 1, &STEPS, LNR
     DOB2 &DSTREC
     set info lcl posttime
       date /epoch
-!    set info lcl secs
-!      set timer off
+   ; set info lcl secs
+     ; set timer off
 
     CALCi &posttime &pretime SUB >>secs
-    
+
     msg "measurement took &secs secs"
 
     CALC 1 NDEC &STEPS &lnr SUB &secs MUL 60 DIV >>minutes
     CALC -1 NDEC &minutes 60 DIV >>hrs
     CALC 2 NDEC &minutes 60 mod >>minutes
-    
- 
+
+
     msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
  Remaining: &hrs hrs &minutes min."
 ENDDO
 
-!reset value to original:
+; reset value to original:
 &PARAM &opt1 &opt2 &INITIAL
 
 set info lcl date time
@@ -119,5 +119,3 @@ log2 "&macro$ &param &opt1 &opt2 done at &time, in rec. &DSTREC"
 setidn &idn0,&idn1
 unit /time &tunits
 mexit
-
-

@@ -1,4 +1,4 @@
-!CP and calibration macro
+; CP and calibration macro
 macarg submac
 DFLT submac,setup, 'Enter submacro:'
 GOTO .&submac
@@ -7,7 +7,7 @@ mexit
 .setup
 chn 21
 suchn 1,C13,8.1,100,90,50
-!chn,nuc,freq,pwrh,pwrl,pwxh
+; chn,nuc,freq,pwrh,pwrl,pwxh
 gosub .general
 msg 'Chn 1 is set to C13'
 mexit
@@ -15,7 +15,7 @@ mexit
 .setupn15
 chn 31
 suchn 1,N15,0,100,70,50
-!chn,nuc,freq,pwrh,pwrl,pwxn
+; chn,nuc,freq,pwrh,pwrl,pwxn
 gosub .general
 msg 'Chn 1 is set to N15'
 mexit
@@ -26,7 +26,7 @@ msg 'CP and calibration'
 titlea "JustCP"
 unit /freq ppm
 suacq 22.40,512,3.0,40.0,4,0,0
-!dw,size,rd,gain,na,ndly,p8
+; dw,size,rd,gain,na,ndly,p8
 gosub .H1param
 gosub .chn1param
 p z 0
@@ -64,7 +64,7 @@ msg 'Decoupling is ON again!!!!'
 mexit
 
 .ccal
-!for calibration of carbon pulse powers
+; for calibration of carbon pulse powers
 p z 100
 pwx 2 zfilter 12
 p flipup 5
@@ -76,10 +76,10 @@ msg 'CP followed by flipup and flipdn, adjust lengths & powers'
 mexit
 
 .chn1param
-!setup chn C13 ======================
+; setup chn C13 ======================
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
-!chn,nam,pwx,dly
+; chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,50,60,,,64
 pwx 1 flip 50
 supls 1,flipup,>,0.0
@@ -88,9 +88,9 @@ pwxex 1 *&macro$
 mexit
 
 .H1param
-!setup chn proton ===================
+; setup chn proton ===================
 suchn 2,H1,0,100,100,100
-!setup pulses
+; setup pulses
 supls 2,cppls,100
 sudly 2,cpdly,50
 pwx 2 cwdec 83
