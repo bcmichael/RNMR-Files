@@ -16,10 +16,6 @@ onerr .exit
 
 iflcl param .endask
   msg "Paropt 1.start 2.end 3.step 4.record 5.parameter 6.channel 7.number"
-  IFGBL SAMPLE .+3
-    msg "Existence of global variable SAMPLE required:"
-    gblarg sample,"sample"
-    gblarg sample,,"Short sample description"
 
   dflt  START,1,"Enter starting value"
   dflt  END,2,"Enter end value"
@@ -58,7 +54,7 @@ set rec &DSTREC,2,STEP,&STEP
 set rec &DSTREC,2,ACQTYP,REAL
 
 
-titlea "Paropt %sample, %MAS kHz, &PARAM &opt1 &opt2, &START - &ENDPNT -
+titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT -
  by &STEP &note"
 
 iflcl mac . .nomac
