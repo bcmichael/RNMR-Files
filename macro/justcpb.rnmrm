@@ -26,11 +26,10 @@ ex justcpb
 msg 'CP and calibration'
 titlea "JustCP"
 unit /freq ppm
-suacq 22.40,512,3.0,60.0,4,0,0
+suacq 22.40,512,3.0,40.0,4,0,0
 !dw,size,rd,gain,na,ndly,p8
 gosub .H1param
 gosub .chn1param
-gain 40
 p z 0
 gosub .cpppmd4
 mexit
