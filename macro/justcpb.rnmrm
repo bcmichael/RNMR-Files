@@ -11,7 +11,6 @@ suchn 1,C13,8.1,100,90,50
 !chn,nuc,freq,pwrh,pwrl,pwxh
 gosub .general
 msg 'Chn 1 is set to C13'
-gosub .crosspol
 mexit
 
 .setupn15
@@ -20,7 +19,6 @@ suchn 1,N15,0,100,70,50
 !chn,nuc,freq,pwrh,pwrl,pwxn
 gosub .general
 msg 'Chn 1 is set to N15'
-gosub .crosspol
 mexit
 
 
@@ -34,6 +32,9 @@ suacq 22.40,512,3.0,60.0,4,0,0
 gosub .H1param
 gosub .chn1param
 gain 40
+p sampdly 0
+p z 0
+gosub .cpppmd4
 mexit
 
 .onepls
@@ -55,16 +56,6 @@ dw 30
 size 4096
 d cpdly 10
 pwx 2 cpdly2 50
-mexit
-
-.crosspol
-supls 1,flipdn,>,0.0
-supls 1,flipup,>,0.0
-p sampdly 0
-p z 0
-p flipdn 0
-p flipup 0
-gosub .cpppmd4
 mexit
 
 .tune
