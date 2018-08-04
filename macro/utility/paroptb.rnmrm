@@ -2,7 +2,7 @@ macarg start end step dstrec param opt1 opt2
 
 ; check for presence of required macros:
 macro reqchk
-reqchk mtools mparb log2
+reqchk mtools log2
   rtnarg &error
 tst eq &error 1
   mexit
@@ -45,7 +45,7 @@ size >>sizeaa
 
 mtools targetrec 5 &dstrec
 allb &DSTREC 2 &sizeaa &STEPS 1
-; mparb &DSTREC 2 2 TIME 1 &START &STEP REAL
+
 set rec &DSTREC,2,DIM,2
 set rec &DSTREC,2,DOM,UNKN
 set rec &DSTREC,2,SYN,1
