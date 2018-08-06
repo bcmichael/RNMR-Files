@@ -1,5 +1,6 @@
 .retry
 DG
+view acq
 wait /err=.retry
 GAV
 SB &1
