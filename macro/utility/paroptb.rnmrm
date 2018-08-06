@@ -37,7 +37,7 @@ CALC 4 ndec &END &START SUB >>RANGE
 CALC -1 ndec &RANGE &STEP DIV 1 add >>STEPS
 CALC 4 NDEC &STEPS 1 SUB &STEP MUL &START ADD >>ENDPNT
 ifeq &param LS . .+1
-    calc -1 ndec &endpnt >>endpnt
+  calc -1 ndec &endpnt >>endpnt
 msg "The final value will be &ENDPNT"
 
 ; allocating destination record and setting parameters for second dimension
@@ -54,12 +54,11 @@ set rec &DSTREC,2,STEP,&STEP
 set rec &DSTREC,2,ACQTYP,REAL
 
 
-titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT -
- by &STEP &note"
+titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT - by &STEP &note"
 
 iflcl mac . .nomac
   &param &opt1 &opt2 /paropt
-   rtnarg initial
+    rtnarg initial
   goto .+2
 .nomac
   &PARAM &opt1 &opt2 >>INITIAL
@@ -67,40 +66,37 @@ iflcl mac . .nomac
 &PARAM &opt1 &opt2 &START
 
 DO /LCL 1, &STEPS, LNR
-    CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
+  CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
   ; Make sure LOOP/LS values are integers:
-    ifeq &param LS . .+1
-       calc -1 ndec &cur >>cur
-    &param &opt1 &opt2 &cur
-    tst lcl ppupdate
-       ppupdate
-    endtst
-    setidn "&macro$","&lnr / &steps"
-    set info lcl pretime
-      date /epoch
-   ; set timer on
-; optional delay before each acq
-    tst lcl wttim
-      msg "waiting &wttim sec..."
-      wttim &wttim
-    endtst
-    DOB2B &DSTREC
-    set info lcl posttime
-      date /epoch
-   ; set info lcl secs
-     ; set timer off
+  ifeq &param LS . .+1
+    calc -1 ndec &cur >>cur
+  &param &opt1 &opt2 &cur
+  tst lcl ppupdate
+    ppupdate
+  endtst
+  setidn "&macro$","&lnr / &steps"
+  set info lcl pretime
+    date /epoch
+  ; optional delay before each acq
+  tst lcl wttim
+    msg "waiting &wttim sec..."
+    wttim &wttim
+  endtst
+  DOB2B &DSTREC
+  set info lcl posttime
+    date /epoch
 
-    CALCi &posttime &pretime SUB >>secs
+  CALCi &posttime &pretime SUB >>secs
 
-    msg "measurement took &secs secs"
+  msg "measurement took &secs secs"
 
-    CALC 1 NDEC &STEPS &lnr SUB &secs MUL 60 DIV >>minutes
-    CALC -1 NDEC &minutes 60 DIV >>hrs
-    CALC 2 NDEC &minutes 60 mod >>minutes
+  CALC 1 NDEC &STEPS &lnr SUB &secs MUL 60 DIV >>minutes
+  CALC -1 NDEC &minutes 60 DIV >>hrs
+  CALC 2 NDEC &minutes 60 mod >>minutes
 
 
-    msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
- Remaining: &hrs hrs &minutes min."
+  msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
+  Remaining: &hrs hrs &minutes min."
 ENDDO
 
 ; reset value to original:
