@@ -1,10 +1,8 @@
 .retry
 DG
 wait /err=.retry
-;WAIT
 GAV
 SB &1
 PTRB &1 >>5 >>6
 msg "Saved rec &1 block &6"
-;masctl disabled 'cause there is not network communication 03/21/10
 mexit
