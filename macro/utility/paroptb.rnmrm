@@ -14,7 +14,7 @@ unit /time >>tunits
 unit /time usec
 onerr .exit
 
-iflcl param .endask
+tst lcl param
   msg "Paropt 1.start 2.end 3.step 4.record 5.parameter 6.channel 7.number"
 
   dflt  START,1,"Enter starting value"
@@ -25,19 +25,22 @@ iflcl param .endask
     rtnarg dstrec
   dflt  PARAM,RD,"Enter parameter to change"
   DFLT  opt1,-1,"Enter channel/index [-1 if unneeded]"
-  IFEQ &opt1 -1 . .+2
+  tst eq &opt1 -1
     lcldl opt1
-    goto .endask
-  DFLT  opt2 -1 "Enter index [-1 if unneeded]"
-  IFEQ &opt2 -1 . .+1
-    lcldl opt2
-.endask
+  elstst
+    DFLT  opt2 -1 "Enter index [-1 if unneeded]"
+    tst eq &opt2 -1
+      lcldl opt2
+    endtst
+  endtst
+endtst
 
 CALC 4 ndec &END &START SUB >>RANGE
 CALC -1 ndec &RANGE &STEP DIV 1 add >>STEPS
 CALC 4 NDEC &STEPS 1 SUB &STEP MUL &START ADD >>ENDPNT
-ifeq &param LS . .+1
+tst eq &param LS
   calc -1 ndec &endpnt >>endpnt
+endtst
 msg "The final value will be &ENDPNT"
 
 ; allocating destination record and setting parameters for second dimension
@@ -56,20 +59,21 @@ set rec &DSTREC,2,ACQTYP,REAL
 
 titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT - by &STEP &note"
 
-iflcl mac . .nomac
+tst lcl mac
   &param &opt1 &opt2 /paropt
     rtnarg initial
-  goto .+2
-.nomac
+elstst
   &PARAM &opt1 &opt2 >>INITIAL
+endtst
 
 &PARAM &opt1 &opt2 &START
 
 DO /LCL 1, &STEPS, LNR
   CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
   ; Make sure LOOP/LS values are integers:
-  ifeq &param LS . .+1
+  tst eq &param LS
     calc -1 ndec &cur >>cur
+  endtst
   &param &opt1 &opt2 &cur
   tst lcl ppupdate
     ppupdate
