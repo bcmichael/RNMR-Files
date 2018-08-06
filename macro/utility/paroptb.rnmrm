@@ -84,7 +84,7 @@ DO /LCL 1, &STEPS, LNR
       msg "waiting &wttim sec..."
       wttim &wttim
     endtst
-    DOB2 &DSTREC
+    DOB2B &DSTREC
     set info lcl posttime
       date /epoch
    ; set info lcl secs
