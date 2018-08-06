@@ -2,6 +2,7 @@
 DG
 view acq
 wait /err=.retry
+view pro
 GAV
 SB &1
 PTRB &1 >>5 >>6
