@@ -2,7 +2,7 @@ macarg start end step dstrec param opt1 opt2
 
 ; check for presence of required macros:
 macro reqchk
-reqchk mtools log2
+reqchk mtools
   rtnarg &error
 tst eq &error 1
   mexit
@@ -109,7 +109,6 @@ ENDDO
 set info lcl date time
   date
 savarv 1
-log2 "&macro$ &param &opt1 &opt2 done at &time, in rec. &DSTREC"
 
 .exit
 setidn &idn0,&idn1
