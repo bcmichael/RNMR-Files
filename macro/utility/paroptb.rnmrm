@@ -14,7 +14,7 @@ unit /time >>tunits
 unit /time usec
 onerr .exit
 
-tst lcl param
+tst /false lcl param
   msg "Paropt 1.start 2.end 3.step 4.record 5.parameter 6.channel 7.number"
 
   dflt  START,1,"Enter starting value"
