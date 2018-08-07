@@ -14,6 +14,19 @@ unit /time >>tunits
 unit /time usec
 onerr .exit
 
+tst lcl ramp
+  msg "Paropt /ramp 1.start 2.end 3.step 4.record 5.name 6.channel 7.width"
+  dflt  START,20,"Enter starting value"
+  dflt  END,80,"Enter end value"
+  dflt  STEP,5,"Enter step size"
+  ptra >>rdrec >>wrrec
+  mtools targetrec &wrrec &dstrec
+    rtnarg dstrec
+  dflt  PARAM,cpdly,"Enter pulse name"
+  DFLT  opt1,1,"Enter channel"
+  DFLT  opt2,10,"Enter ramp size"
+endtst
+
 tst /false lcl param
   msg "Paropt 1.start 2.end 3.step 4.record 5.parameter 6.channel 7.number"
 
@@ -56,17 +69,14 @@ set rec &DSTREC,2,FIRST,&START
 set rec &DSTREC,2,STEP,&STEP
 set rec &DSTREC,2,ACQTYP,REAL
 
-
-titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT - by &STEP &note"
-
-tst lcl mac
-  &param &opt1 &opt2 /paropt
-    rtnarg initial
+tst lcl ramp
+  titlea "Paropt, &param&opt1 width &opt2, &START - &ENDPNT - by &STEP &note"
+  pwx &opt1 &param&opt1'v1' >>initialbeg
+  pwx &opt1 &param&opt1'v2' >>initialend
 elstst
-  &PARAM &opt1 &opt2 >>INITIAL
+  titlea "Paropt, &PARAM &opt1 &opt2, &START - &ENDPNT - by &STEP &note"
+  &PARAM &opt1 &opt2 >>initial
 endtst
-
-&PARAM &opt1 &opt2 &START
 
 DO /LCL 1, &STEPS, LNR
   CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
@@ -74,7 +84,11 @@ DO /LCL 1, &STEPS, LNR
   tst eq &param LS
     calc -1 ndec &cur >>cur
   endtst
-  &param &opt1 &opt2 &cur
+  tst lcl ramp
+    setramp &param &opt1 &cur &opt2
+  elstst
+    &param &opt1 &opt2 &cur
+  endtst
   tst lcl ppupdate
     ppupdate
   endtst
@@ -98,13 +112,22 @@ DO /LCL 1, &STEPS, LNR
   CALC -1 NDEC &minutes 60 DIV >>hrs
   CALC 2 NDEC &minutes 60 mod >>minutes
 
-
-  msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
-  Remaining: &hrs hrs &minutes min."
+  tst lcl ramp
+    msg "&PARAM&opt1 &CUR &opt2 done. Rec: &DSTREC -
+    Remaining: &hrs hrs &minutes min."
+  elstst
+    msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
+    Remaining: &hrs hrs &minutes min."
+  endtst
 ENDDO
 
 ; reset value to original:
-&PARAM &opt1 &opt2 &INITIAL
+tst lcl ramp
+  pwx &opt1 &param&opt1'v1' &initialbeg
+  pwx &opt1 &param&opt1'v2' &initialend
+elstst
+  &param &opt1 &opt2 &initial
+endtst
 
 set info lcl date time
   date
