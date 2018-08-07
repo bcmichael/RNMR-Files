@@ -116,8 +116,12 @@ DO /LCL 1, &STEPS, LNR
     msg "&PARAM&opt1 &CUR &opt2 done. Rec: &DSTREC -
     Remaining: &hrs hrs &minutes min."
   elstst
-    msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
-    Remaining: &hrs hrs &minutes min."
+    tst eq &param rd
+      msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC"
+    elstst
+      msg "&PARAM &opt1 &opt2 = &CUR done. Rec: &DSTREC -
+      Remaining: &hrs hrs &minutes min."
+    endtst
   endtst
 ENDDO
 
