@@ -1,0 +1,173 @@
+
+lclarg curmacro darr
+
+dflt 1,options,'enter submacro'
+chn 213
+unit /freq ppm
+nwait 0
+goto .&1
+mexit
+
+.setup
+msg 'DARR version Sept 2011'
+ex &macro$
+&curmacro general
+&curmacro C13params
+&curmacro H1params
+&curmacro mixdarr
+&curmacro darrparams
+mexit
+
+
+.mixdarr
+pwx 2 mix2 11
+!mixing time proportional to rotor period, here: 8k
+d mix 80
+mexit
+
+.general
+suacq 30.0,768,4.0,70.0,40,0,2.82
+!dw,size,rd,gain,na,ndly,p8
+mexit
+
+.C13params
+!setup chn 1 C13 ======================
+suchn 1,C13,12.0,100,100,%pc83
+!chn,nuc,freq,pwrh,pwrl,pwxh
+!setup pulses2.5
+supls 1,cppls,0,2.5
+sudly 1,cpdly,0,1.5
+!chn,nam,pwx,dly
+supwxval 1,cpdly,ramp,38.5,48.5,,,64 ;6kHz MAS
+pwx 1 flip %pc83
+supls 1,flipup,>,3
+supls 1,flipdn,>,3
+pwxex 1 *&curmacro
+!calls submacro .pwxex1
+mexit
+
+.H1params
+!setup chn 2 proton ===================
+suchn 2,H1,1.6,100,100,%ph100
+!setup pulses
+supls 2,cppls,%ph100
+supwxval 2,cpdly,ramp,75,75,,,64
+pwx 2 cwdec %ph100
+supls 2,flipup,>
+supls 2,flipdn,>
+super 2,sample,on,*,%ph100,5.0
+supsxval 2,sample,tppm,16,0.0
+super 2,evolve,on,*,%ph83,5.6
+supsxval 2,evolve,tppm,18,0
+psxex 2 *&curmacro
+pwxex 2 *&curmacro
+!calls submacro .psxex2
+mexit
+
+.onepls
+d cpdly 0
+p cppls 0
+p flipdn 3
+p flipup 0
+pwx 2 cwdec %ph71
+namd		4
+
+ppmd flipdn	1234
+amd             2341
+mexit
+
+
+.justcp
+p flipup 0
+p flipdn 0
+d mix 0
+ppmd dec 	1
+ppmd cppls	1313 3131
+ppmd cpdlydec   2
+ppmd cpdlyobs	1234 1234
+amd		1432 3214
+namd 8
+na 8
+mexit
+
+.ccal
+pwx 1 flip %pc83
+p flipup 3
+p flipdn 6
+d mix 0.625
+pwx 2 mix2 10
+ppmd dec 	1
+ppmd cppls	1111 3333
+ppmd cpdlydec   4
+ppmd cpdlyobs	1
+PPMD FLIPUP     4444 2222
+PPMD FLIPDN     1234
+amd		4123
+namd 8
+na 8
+mexit
+
+.darrparams
+namd		16
+namd /blk	2
+amd /blk 11
+ppmd dec        1
+ppmd cpdlydec	2
+ppmd cppls      13
+ppmd cpdlyobs   1133
+ppmd flipup     2
+ppmd flipdn     1111 3333 2222 4444
+amd             2442 4224 3113 1331
+ppmd /blk cpdlyobs 14
+
+mexit
+
+.run2ddarr
+macarg submac recnr darr pt1 sz2
+msg 'set globals %sample and %mas'
+dflt recnr,100,"which record?"
+dflt darr,4,"DARR mixing (ms)"
+dflt pt1,160,"indirect dwell time (us)"
+dflt sz2,128,"indirect dim. size"
+
+d mix &darr
+
+allmd &recnr 2 > > &pt1 &sz2
+;gomd &recnr
+gomd &recnr
+mexit
+
+.run2ddarrnus
+macarg submac recnr darr pt1 sz2
+msg 'set globals %sample and %mas'
+dflt recnr,100,"which record?"
+dflt darr,4,"DARR mixing (ms)"
+dflt pt1,160,"indirect dwell time (us)"
+dflt sz2,128,"indirect dim. size"
+
+d mix &darr
+
+allmd &recnr 2 > > &pt1 &sz2
+;gomd &recnr
+gonus &recnr
+mexit
+
+.options
+msg 'setup : setup'
+msg 'settings: general'
+msg 'versions: justcp, plswidth, echo, echozf'
+msg 'utils: tune'
+mexit
+
+.PWXEX1
+SUPWXEX 1,CPDLY,RAMP
+MEXIT
+
+.PSXEX2
+SUPSXEX 2,SAMPLE,TPPM
+supsxex 2,evolve,tppm
+MEXIT
+
+.pwxex2
+supwxex 2,cpdly,ramp
+mexit
