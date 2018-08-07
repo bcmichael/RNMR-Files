@@ -1,6 +1,6 @@
-;==========================
-;DEFINITIONS
-;==========================
+; ==========================
+; DEFINITIONS
+; ==========================
 
 mark 1
 
@@ -28,17 +28,17 @@ allocx pwx,pwx_flip
 
 mark 2
 
-;==========================
-;CALCULATIONS
-;==========================
+; ==========================
+; CALCULATIONS
+; ==========================
 
-;Calculate d_maxt1
+; Calculate d_maxt1
 push loop,loop_maxt1
 push pls,pls_t1
 mul
 pop dly,dly_maxt1
 
-;CALCULATE MORE T1
+; CALCULATE MORE T1
 PUSH DLY,DLY_MAXT1
 PUSH DLY,DLY_T1
 IFSTK LT
@@ -55,20 +55,20 @@ ENDIF
 
 mark 3
 
-;=============================
-;2nd dimention
-;=============================
+; =============================
+; 2nd dimention
+; =============================
 use dim 2 1 2
-;   idim,logical_chn,nseg
+; idim,logical_chn,nseg
 
 dimdly 2
 pop dly,dly_t1
 
 use timer
 
-;==========================
-;DEFINE OBSERVE PROGRAM
-;==========================
+; ==========================
+; DEFINE OBSERVE PROGRAM
+; ==========================
 
 mark 10
 use pwxpls,cppls
@@ -80,7 +80,7 @@ mark 11
 
 iniobs
 
-;ramped CP
+; ramped CP
 pwxpls cppls		;dummy cp pls
 pwxdly cpdly		;psx=1, ppmd=cpdly
 
@@ -88,14 +88,14 @@ mark 12
 
 mark 13
 
-;t1 evolution
+; t1 evolution
 
 	dly gate_idle,dly_t1
 
-pwxpls flipup   
+pwxpls flipup
 
    DLY GATE_IDLE,DLY_MIX
-   
+
 mark 14
 
 mark 15
@@ -111,11 +111,11 @@ dly gate_idle,dly_moret1
 recycle
 finobs
 
-;==========================
-;DEFINE DECOUPLE PROGRAM
-;==========================
+; ==========================
+; DEFINE DECOUPLE PROGRAM
+; ==========================
 
-;Allocations on Decouple Channel:
+; Allocations on Decouple Channel:
 allocx pwx,pwx_cwdec
 
 mark 20
@@ -134,7 +134,7 @@ mark 21
 
 inidec
 
-;ramped CP
+; ramped CP
 pwxpls cppls		;pls_cppls,psx=1,ppmd=cppls pwx 2 cppls2
 pwxdly cpdly		;constant amplitude cp, phase=y,pwx 2 cpdly2
 
@@ -142,14 +142,14 @@ mark 22
 
 mark 23
 
-;t1 evolution _ dec channel
+; t1 evolution _ dec channel
 
 period evolve,dly_t1
 
 pwxpls flipup
 
 mark 24
-   
+
       PERIOD MIX,DLY_MIX
 
 mark 25

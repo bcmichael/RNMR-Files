@@ -11,45 +11,45 @@ mexit
 .setup
 msg 'DARR version Sept 2011'
 ex &macro$
-&curmacro general
-&curmacro C13params
-&curmacro H1params
-&curmacro mixdarr
-&curmacro darrparams
+gosub .general
+gosub .C13params
+gosub .H1params
+gosub .mixdarr
+gosub .darrparams
 mexit
 
 
 .mixdarr
 pwx 2 mix2 11
-!mixing time proportional to rotor period, here: 8k
+; mixing time proportional to rotor period, here: 8k
 d mix 80
 mexit
 
 .general
 suacq 30.0,768,4.0,70.0,40,0,2.82
-!dw,size,rd,gain,na,ndly,p8
+; dw,size,rd,gain,na,ndly,p8
 mexit
 
 .C13params
-!setup chn 1 C13 ======================
+; setup chn 1 C13 ======================
 suchn 1,C13,12.0,100,100,%pc83
-!chn,nuc,freq,pwrh,pwrl,pwxh
-!setup pulses2.5
+; chn,nuc,freq,pwrh,pwrl,pwxh
+; setup pulses2.5
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
-!chn,nam,pwx,dly
+; chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,38.5,48.5,,,64 ;6kHz MAS
 pwx 1 flip %pc83
 supls 1,flipup,>,3
 supls 1,flipdn,>,3
 pwxex 1 *&curmacro
-!calls submacro .pwxex1
+; calls submacro .pwxex1
 mexit
 
 .H1params
-!setup chn 2 proton ===================
+; setup chn 2 proton ===================
 suchn 2,H1,1.6,100,100,%ph100
-!setup pulses
+; setup pulses
 supls 2,cppls,%ph100
 supwxval 2,cpdly,ramp,75,75,,,64
 pwx 2 cwdec %ph100
@@ -61,7 +61,7 @@ super 2,evolve,on,*,%ph83,5.6
 supsxval 2,evolve,tppm,18,0
 psxex 2 *&curmacro
 pwxex 2 *&curmacro
-!calls submacro .psxex2
+; calls submacro .psxex2
 mexit
 
 .onepls
@@ -133,7 +133,7 @@ dflt sz2,128,"indirect dim. size"
 d mix &darr
 
 allmd &recnr 2 > > &pt1 &sz2
-;gomd &recnr
+; gomd &recnr
 gomd &recnr
 mexit
 
@@ -148,7 +148,7 @@ dflt sz2,128,"indirect dim. size"
 d mix &darr
 
 allmd &recnr 2 > > &pt1 &sz2
-;gomd &recnr
+; gomd &recnr
 gonus &recnr
 mexit
 
