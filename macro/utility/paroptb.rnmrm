@@ -129,8 +129,6 @@ elstst
   &param &opt1 &opt2 &initial
 endtst
 
-set info lcl date time
-  date
 savarv 1
 
 .exit
