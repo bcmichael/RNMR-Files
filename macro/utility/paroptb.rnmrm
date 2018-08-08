@@ -1,8 +1,11 @@
 macarg start end step dstrec param opt1 opt2
 
 ; check for presence of required macros:
+tst lcl ramp
+  lclarg rampreq setrampb
+endtst
 macro reqchk
-reqchk mtools
+reqchk mtools &rampreq
   rtnarg &error
 tst eq &error 1
   mexit
@@ -126,8 +129,12 @@ ENDDO
 
 ; reset value to original:
 tst lcl ramp
+  pwxex &opt1 >>expname
   pwx &opt1 &param&opt1'v1' &initialbeg
   pwx &opt1 &param&opt1'v2' &initialend
+  tst /false eq "&expname" ""
+    pwxex &opt1 &expname
+  endtst
 elstst
   &param &opt1 &opt2 &initial
 endtst
