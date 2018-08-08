@@ -1,0 +1,86 @@
+; macro for setting cp ramps
+
+ifeq &1,"ctr",.center
+ifeq &1,"wth",.width
+
+macarg name,chan,ctr,width
+! macro to set CP ramps
+! changes:
+! PW Apr06 - test ramp limits and truncate if needed
+!  - just set center or width
+! Jan07 - handle case of no saved pwxex exp.name
+
+dflt name,cpdly,'enter name of ramp'
+dflt chan,1,'enter chan number of ramp'
+
+pwx &chan &name&chan'v1' >>oldbegin
+pwx &chan &name&chan'v2' >>oldend
+calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
+calc 4 ndec &oldend &oldbegin sub >>oldwidth
+!msg "&name on chn &chan WAS ctr &oldctr width &oldwidth"
+dflt ctr,&oldctr,'enter the center of the sweep in pwx units'
+dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
+
+!sets ramp to (ctr-width/2) to (ctr+width/2)
+!or truncates as needed... i.e. -5 to +5 becomes 0 to +5
+goto .execute
+
+.center
+macarg submac name,chan,ctr
+dflt name,cpdly,'enter name of ramp'
+dflt chan,1,'enter chan number of ramp'
+
+pwx &chan &name&chan'v1' >>oldbegin
+pwx &chan &name&chan'v2' >>oldend
+calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
+calc 4 ndec &oldend &oldbegin sub >>oldwidth
+!msg "&name on chn &chan WAS ctr &oldctr width &oldwidth"
+dflt ctr,&oldctr,'enter the center of the sweep in pwx units'
+dflt width,&oldwidth
+goto .execute
+
+
+.width
+macarg submac name,chan,width
+dflt name,cpdly,'enter name of ramp'
+dflt chan,1,'enter chan number of ramp'
+
+pwx &chan &chan&name'v1' >>oldbegin
+pwx &chan &name&chan'v2' >>oldend
+calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
+calc 4 ndec &oldend &oldbegin sub >>oldwidth
+!msg "&name on chn &chan WAS ctr &oldctr width &oldwidth"
+dflt ctr,&oldctr
+dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
+goto .execute
+
+.execute
+
+calc 4 ndec &width 2 div >>temp
+calc 4 ndec &ctr &temp sub >>begin
+calc 4 ndec &begin &width add >>end
+
+!checking limits to be valid:
+calc &begin 0 LT >>tst
+ifeq /log &tst 1 . .+2
+  msg "&macro$ - WARNING: truncating ramp at pwx 0"
+  lclarg begin 0
+
+calc &end 100 GT >>tst
+ifeq /log &tst 1 . .+2
+  msg "&macro$ - WARNING: truncating ramp at pwx 100"
+  lclarg end 100
+
+!get current pwxex 1
+pwxex &chan >>expname	;'&chan' was originally '1', changed on May 8 2015
+
+
+pwx &chan &name&chan'v1' &begin
+pwx &chan &name&chan'v2' &end
+
+!skip in case no previous pwx tables were loaded:
+tst /false eq "&expname" ""
+  pwxex &chan &expname
+endtst
+
+msg "&name on ch. &chan - center: &ctr, width: &width (&begin - &end\)"

@@ -84,7 +84,7 @@ DO /LCL 1, &STEPS, LNR
     calc /ndec=-1 &cur >>cur
   endtst
   tst lcl ramp
-    setramp &param &opt1 &cur &opt2
+    setrampb &param &opt1 &cur &opt2
   elstst
     &param &opt1 &opt2 &cur
   endtst
