@@ -15,7 +15,6 @@ gosub .mixdarr
 gosub .darrparams
 mexit
 
-
 .mixdarr
 pwx 2 mix2 11
 ; mixing time proportional to rotor period, here: 8k
@@ -61,49 +60,6 @@ pwxex 2 *&macro$
 ; calls submacro .psxex2
 mexit
 
-.onepls
-d cpdly 0
-p cppls 0
-p flipdn 3
-p flipup 0
-pwx 2 cwdec %ph71
-namd		4
-
-ppmd flipdn	1234
-amd             2341
-mexit
-
-
-.justcp
-p flipup 0
-p flipdn 0
-d mix 0
-ppmd dec 	1
-ppmd cppls	1313 3131
-ppmd cpdlydec   2
-ppmd cpdlyobs	1234 1234
-amd		1432 3214
-namd 8
-na 8
-mexit
-
-.ccal
-pwx 1 flip %pc83
-p flipup 3
-p flipdn 6
-d mix 0.625
-pwx 2 mix2 10
-ppmd dec 	1
-ppmd cppls	1111 3333
-ppmd cpdlydec   4
-ppmd cpdlyobs	1
-PPMD FLIPUP     4444 2222
-PPMD FLIPDN     1234
-amd		4123
-namd 8
-na 8
-mexit
-
 .darrparams
 namd		16
 namd /blk	2
@@ -147,13 +103,6 @@ d mix &darr
 allmd &recnr 2 > > &pt1 &sz2
 ; gomd &recnr
 gonus &recnr
-mexit
-
-.options
-msg 'setup : setup'
-msg 'settings: general'
-msg 'versions: justcp, plswidth, echo, echozf'
-msg 'utils: tune'
 mexit
 
 .PWXEX1
