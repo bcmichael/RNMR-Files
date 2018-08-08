@@ -28,14 +28,14 @@ mexit
 
 .C13params
 ; setup chn 1 C13 ======================
-suchn 1,C13,12.0,100,100,%pc83
+suchn 1,C13,12.0,100,100,83
 ; chn,nuc,freq,pwrh,pwrl,pwxh
 ; setup pulses2.5
 supls 1,cppls,0,2.5
 sudly 1,cpdly,0,1.5
 ; chn,nam,pwx,dly
 supwxval 1,cpdly,ramp,38.5,48.5,,,64 ;6kHz MAS
-pwx 1 flip %pc83
+pwx 1 flip 83
 supls 1,flipup,>,3
 supls 1,flipdn,>,3
 pwxex 1 *&macro$
@@ -44,16 +44,16 @@ mexit
 
 .H1params
 ; setup chn 2 proton ===================
-suchn 2,H1,1.6,100,100,%ph100
+suchn 2,H1,1.6,100,100,100
 ; setup pulses
-supls 2,cppls,%ph100
+supls 2,cppls,100
 supwxval 2,cpdly,ramp,75,75,,,64
-pwx 2 cwdec %ph100
+pwx 2 cwdec 100
 supls 2,flipup,>
 supls 2,flipdn,>
-super 2,sample,on,*,%ph100,5.0
+super 2,sample,on,*,100,5.0
 supsxval 2,sample,tppm,16,0.0
-super 2,evolve,on,*,%ph83,5.6
+super 2,evolve,on,*,h83,5.6
 supsxval 2,evolve,tppm,18,0
 psxex 2 *&macro$
 pwxex 2 *&macro$
