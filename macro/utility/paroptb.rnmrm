@@ -48,11 +48,10 @@ tst /false lcl param
   endtst
 endtst
 
-CALC 4 ndec &END &START SUB >>RANGE
-CALC -1 ndec &RANGE &STEP DIV 1 add >>STEPS
-CALC 4 NDEC &STEPS 1 SUB &STEP MUL &START ADD >>ENDPNT
-tst eq &param LS
-  calc -1 ndec &endpnt >>endpnt
+calc (&end-&start)/&step+1 >>steps
+calc /ndec=4 (&steps-1)*&step+&start >>endpnt
+tst eq &param LS ;LS values must be integers so use calc to truncate endpnt
+  calc /ndec=-1 &endpnt >>endpnt
 endtst
 msg "The final value will be &ENDPNT"
 
@@ -79,10 +78,10 @@ elstst
 endtst
 
 DO /LCL 1, &STEPS, LNR
-  CALC 4 NDEC &lnr 1 SUB &STEP mul &START ADD >>CUR
+  calc /ndec=4 (&lnr-1)*&step+&start >>cur
   ; Make sure LOOP/LS values are integers:
   tst eq &param LS
-    calc -1 ndec &cur >>cur
+    calc /ndec=-1 &cur >>cur
   endtst
   tst lcl ramp
     setramp &param &opt1 &cur &opt2
@@ -104,13 +103,13 @@ DO /LCL 1, &STEPS, LNR
   set info lcl posttime
     date /epoch
 
-  CALCi &posttime &pretime SUB >>secs
+  calci &posttime-&pretime >>secs
 
   msg "measurement took &secs secs"
 
-  CALC 1 NDEC &STEPS &lnr SUB &secs MUL 60 DIV >>minutes
-  CALC -1 NDEC &minutes 60 DIV >>hrs
-  CALC 2 NDEC &minutes 60 mod >>minutes
+  calc /ndec=1 (&steps-&lnr)*&secs/60 >>minutes
+  calc &minutes/60 >>hrs
+  calc /ndec=2 &minutes 60 mod >>minutes
 
   tst lcl ramp
     msg "&PARAM&opt1 &CUR &opt2 done. Rec: &DSTREC -
