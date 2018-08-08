@@ -7,28 +7,28 @@ dflt chan,1,'enter chan number of ramp'
 
 pwx &chan &name&chan'v1' >>oldbegin
 pwx &chan &name&chan'v2' >>oldend
-calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
-calc 4 ndec &oldend &oldbegin sub >>oldwidth
+calc /ndec=4 (&oldbegin+&oldend)/2 >>oldctr
+calc /ndec=4 &oldend-&oldbegin >>oldwidth
 dflt ctr,&oldctr,'enter the center of the sweep in pwx units'
 dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
 
 ; sets ramp to (ctr-width/2) to (ctr+width/2)
 ; or truncates as needed... i.e. -5 to +5 becomes 0 to +5
-
-calc 4 ndec &width 2 div >>temp
-calc 4 ndec &ctr &temp sub >>begin
-calc 4 ndec &begin &width add >>end
+calc /ndec=4 &ctr-(&width/2) >>begin
+calc /ndec=4 &begin+&width >>end
 
 ; checking limits to be valid:
-calc &begin 0 LT >>tst
-ifeq /log &tst 1 . .+2
+calc &begin 0 LT >>test
+tst eq &test 1
   msg "&macro$ - WARNING: truncating ramp at pwx 0"
   lclarg begin 0
+endtst
 
-calc &end 100 GT >>tst
-ifeq /log &tst 1 . .+2
+calc &end 100 GT >>test
+tst eq &test 1
   msg "&macro$ - WARNING: truncating ramp at pwx 100"
   lclarg end 100
+endtst
 
 ; get current pwxex 1
 pwxex &chan >>expname
