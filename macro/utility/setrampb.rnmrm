@@ -1,8 +1,5 @@
 ; macro for setting cp ramps
 
-ifeq &1,"ctr",.center
-ifeq &1,"wth",.width
-
 macarg name,chan,ctr,width
 
 dflt name,cpdly,'enter name of ramp'
@@ -17,36 +14,6 @@ dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
 
 ; sets ramp to (ctr-width/2) to (ctr+width/2)
 ; or truncates as needed... i.e. -5 to +5 becomes 0 to +5
-goto .execute
-
-.center
-macarg submac name,chan,ctr
-dflt name,cpdly,'enter name of ramp'
-dflt chan,1,'enter chan number of ramp'
-
-pwx &chan &name&chan'v1' >>oldbegin
-pwx &chan &name&chan'v2' >>oldend
-calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
-calc 4 ndec &oldend &oldbegin sub >>oldwidth
-dflt ctr,&oldctr,'enter the center of the sweep in pwx units'
-dflt width,&oldwidth
-goto .execute
-
-
-.width
-macarg submac name,chan,width
-dflt name,cpdly,'enter name of ramp'
-dflt chan,1,'enter chan number of ramp'
-
-pwx &chan &chan&name'v1' >>oldbegin
-pwx &chan &name&chan'v2' >>oldend
-calc 4 ndec &oldbegin &oldend add 2 div >>oldctr
-calc 4 ndec &oldend &oldbegin sub >>oldwidth
-dflt ctr,&oldctr
-dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
-goto .execute
-
-.execute
 
 calc 4 ndec &width 2 div >>temp
 calc 4 ndec &ctr &temp sub >>begin
