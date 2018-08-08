@@ -1,4 +1,6 @@
 ; macro for setting cp ramps
+; sets ramp to (ctr-width/2) to (ctr+width/2)
+; or truncates as needed... i.e. -5 to +5 becomes 0 to +5
 
 macarg name,chan,ctr,width
 
@@ -12,8 +14,6 @@ calc /ndec=4 &oldend-&oldbegin >>oldwidth
 dflt ctr,&oldctr,'enter the center of the sweep in pwx units'
 dflt width,&oldwidth,'enter the width of the ramp in pwx units (neg for down)'
 
-; sets ramp to (ctr-width/2) to (ctr+width/2)
-; or truncates as needed... i.e. -5 to +5 becomes 0 to +5
 calc /ndec=4 &ctr-(&width/2) >>begin
 calc /ndec=4 &begin+&width >>end
 
