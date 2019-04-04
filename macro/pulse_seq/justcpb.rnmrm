@@ -29,7 +29,6 @@ suacq 22.40,512,3.0,40.0,4,0,0
 ; dw,size,rd,gain,na,ndly,p8
 gosub .H1param
 gosub .chn1param
-p z 0
 gosub .cpppmd4
 mexit
 
@@ -65,8 +64,6 @@ mexit
 
 .ccal
 ; for calibration of carbon pulse powers
-p z 100
-pwx 2 zfilter 12
 p flipup 5
 p flipdn 5
 na 8
