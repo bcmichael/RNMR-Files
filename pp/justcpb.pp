@@ -1,9 +1,6 @@
 ; ========================
 ; DEFINITIONS
 ; ========================
-allocx pls pls_flipdn alloc_usr
-allocx pls pls_flipup alloc_usr
-
 allocx ppmd ppmd_cpdly
 allocx ppmd ppmd_flipdn
 allocx ppmd ppmd_flipup
