@@ -1,9 +1,6 @@
 ; ========================
 ; DEFINITIONS
 ; ========================
-allocx ppmd ppmd_cpdly
-allocx ppmd ppmd_flipdn
-allocx ppmd ppmd_flipup
 
 allocx pwx pwx_flip
 
@@ -16,9 +13,9 @@ allocx pwx pwx_flip
 
 use timer
 use pwxpls cppls				;nam,pwr,psx,ppmd,pwx
-use pwxdly cpdly pwrh 1 ppmd_cpdly * 64		;nam,pwr,psx,ppmd,beg,size
-use pwxpls flipdn pwrh 1 ppmd_flipdn pwx_flip
-use pwxpls flipup pwrh 1 ppmd_flipup pwx_flip
+use pwxdly cpdly pwrh 1 * * 64		;nam,pwr,psx,ppmd,beg,size
+use pwxpls flipdn pwrh 1 * pwx_flip
+use pwxpls flipup pwrh 1 * pwx_flip
 
 iniobs
 pwxpls cppls		;dummy cp pls
@@ -35,12 +32,10 @@ finobs
 ; defines the proton channel details
 
 allocx ppmd ppmd_dec
-allocx ppmd ppmd_cppls
 allocx pwx pwx_cwdec
-allocx ppmd ppmd_cpdlydec
 
-use pwxpls cppls pwrh 1 ppmd_cppls * 		;nam pwr psx ppmd pwx
-use pwxdly cpdly pwrh 1 ppmd_cpdlydec * 1	;nam pwr psx ppmd beg size
+use pwxpls cppls pwrh 1 * * 		;nam pwr psx ppmd pwx
+use pwxdly cpdly pwrh 1 * * 1	;nam pwr psx ppmd beg size
 use pwxpls flipdn pwrh 1 ppmd_dec pwx_cwdec
 use pwxpls flipup pwrh 1 ppmd_dec pwx_cwdec
 use period sample tppm pwrh * 64 ppmd_dec
