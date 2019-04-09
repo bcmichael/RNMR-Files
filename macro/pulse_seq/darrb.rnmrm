@@ -53,7 +53,7 @@ supls 2,flipup,>
 supls 2,flipdn,>
 super 2,sample,on,*,100,5.0
 supsxval 2,sample,tppm,16,0.0
-super 2,evolve,on,*,h83,5.6
+super 2,evolve,on,*,83,5.6
 supsxval 2,evolve,tppm,18,0
 psxex 2 *&macro$
 pwxex 2 *&macro$
