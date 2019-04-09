@@ -6,9 +6,6 @@ mark 1
 
 allocx dly,dly_t1,alloc_int
 allocx dly,dly_moret1,alloc_int
-allocx dly,dly_maxt1,alloc_int
-allocx loop,loop_maxt1,alloc_usr
-allocx pls,pls_t1,alloc_usr
 
 ALLOCX DLY,DLY_MIX,ALLOC_USR
 
@@ -18,18 +15,23 @@ allocx pwx,pwx_flip
 
 mark 2
 
+; =============================
+; 2nd dimension
+; =============================
+use dim 2 1 2
+; idim,logical_chn,nseg
+
+dimdly 2
+pop dly,dly_t1
+
 ; ==========================
 ; CALCULATIONS
 ; ==========================
 
-; Calculate d_maxt1
-push loop,loop_maxt1
-push pls,pls_t1
+; moret1 = size*step-t1
+push loop,loop_size$2
+push dly,dly_step$2
 mul
-pop dly,dly_maxt1
-
-; CALCULATE MORE T1
-PUSH DLY,DLY_MAXT1
 PUSH DLY,DLY_T1
 IFSTK LT
   SUB
@@ -41,18 +43,8 @@ ELSE
    POP
 ENDIF
 
-
-
 mark 3
 
-; =============================
-; 2nd dimention
-; =============================
-use dim 2 1 2
-; idim,logical_chn,nseg
-
-dimdly 2
-pop dly,dly_t1
 
 use timer
 
