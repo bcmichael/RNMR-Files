@@ -7,7 +7,7 @@ mark 1
 allocx dly,dly_t1,alloc_int
 allocx dly,dly_moret1,alloc_int
 
-ALLOCX DLY,DLY_MIX,ALLOC_USR
+allocx dly,dly_mix,alloc_usr
 
 allocx ppmd,ppmd_dec
 
@@ -32,16 +32,16 @@ pop dly,dly_t1
 push loop,loop_size$2
 push dly,dly_step$2
 mul
-PUSH DLY,DLY_T1
-IFSTK LT
-  SUB
-  POP DLY,DLY_MORET1
-ELSE
-   PUSH DLY,#0
-   POP DLY,DLY_MORET1
-   POP
-   POP
-ENDIF
+push dly,dly_t1
+ifstk lt
+  sub
+  pop dly,dly_moret1
+else
+   push dly,#0
+   pop dly,dly_moret1
+   pop
+   pop
+endif
 
 mark 3
 
@@ -76,7 +76,7 @@ mark 13
 
 pwxpls flipup
 
-   DLY GATE_IDLE,DLY_MIX
+   dly gate_idle,dly_mix
 
 mark 14
 
@@ -110,7 +110,7 @@ use period,sample,tppm,pwrh,*,64,ppmd_dec
 use period,evolve,tppm,pwrh,*,64,ppmd_dec
 ;pernam,seqnam,pwr,org,size,ppmd
 
-USE PERIOD,MIX,cw,PWRH,ppmd_cwdec
+use period,mix,cw,pwrh,ppmd_cwdec
 
 mark 21
 
@@ -132,7 +132,7 @@ pwxpls flipup
 
 mark 24
 
-      PERIOD MIX,DLY_MIX
+      period mix,dly_mix
 
 mark 25
 
