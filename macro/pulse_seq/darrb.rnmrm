@@ -65,13 +65,13 @@ namd		16
 namd /blk	2
 amd /blk 11
 ppmd dec        1
-ppmd cpdlydec	2
-ppmd cppls      13
-ppmd cpdlyobs   1133
-ppmd flipup     2
-ppmd flipdn     1111 3333 2222 4444
+ppmd cpdly2	2
+ppmd cppls2      13
+ppmd cpdly1   1133
+ppmd flipup1     2
+ppmd flipdn1     1111 3333 2222 4444
 amd             2442 4224 3113 1331
-ppmd /blk cpdlyobs 14
+ppmd /blk cpdly1 14
 
 mexit
 

@@ -4,10 +4,6 @@
 
 mark 1
 
-allocx pls,pls_cppls,alloc_usr
-allocx pls,pls_flipup,alloc_usr
-allocx pls,pls_flipdn,alloc_usr
-
 allocx dly,dly_t1,alloc_int
 allocx dly,dly_moret1,alloc_int
 allocx dly,dly_maxt1,alloc_int
@@ -16,14 +12,8 @@ allocx pls,pls_t1,alloc_usr
 
 ALLOCX DLY,DLY_MIX,ALLOC_USR
 
-allocx ppmd,ppmd_cppls
-allocx ppmd,ppmd_cpdlyobs
-allocx ppmd,ppmd_cpdlydec
-allocx ppmd,ppmd_flipup
-allocx ppmd,ppmd_flipdn
 allocx ppmd,ppmd_dec
 
-allocx pwx,pwx_cppls
 allocx pwx,pwx_flip
 
 mark 2
@@ -72,9 +62,9 @@ use timer
 
 mark 10
 use pwxpls,cppls
-use pwxdly,cpdly,pwrh,1,ppmd_cpdlyobs,*,64	;nam,pwr,psx,ppmd,beg,size
-use pwxpls,flipup,pwrh,1,ppmd_flipup,pwx_flip
-use pwxpls,flipdn,pwrh,1,ppmd_flipdn,pwx_flip
+use pwxdly,cpdly,pwrh,1,*,*,64	;nam,pwr,psx,ppmd,beg,size
+use pwxpls,flipup,pwrh,1,*,pwx_flip
+use pwxpls,flipdn,pwrh,1,*,pwx_flip
 
 mark 11
 
@@ -120,8 +110,8 @@ allocx pwx,pwx_cwdec
 
 mark 20
 
-use pwxpls,cppls,pwrh,1,ppmd_cppls,pwx_cppls  		;nam,pwr,psx,ppmd,pwx
-use pwxdly,cpdly,pwrh,1,ppmd_cpdlydec,*,64	;nam,pwr,psx,ppmd,beg,size
+use pwxpls,cppls,pwrh,1,*,*  		;nam,pwr,psx,ppmd,pwx
+use pwxdly,cpdly,pwrh,1,*,*,64	;nam,pwr,psx,ppmd,beg,size
 use pwxpls,flipup,pwrh,1,ppmd_dec,pwx_cwdec
 use pwxpls,flipdn,pwrh,1,ppmd_dec,pwx_cwdec
 use period,sample,tppm,pwrh,*,64,ppmd_dec
