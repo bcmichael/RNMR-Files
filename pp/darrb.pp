@@ -34,11 +34,10 @@ else
    pop
 endif
 
-use timer
-
 ; ==========================
 ; DEFINE OBSERVE PROGRAM
 ; ==========================
+use timer
 use pwxpls cppls
 use pwxdly cpdly pwrh 1 * * 64	   ;nam,pwr,psx,ppmd,beg,size
 use pwxpls flipup pwrh 1 * pwx_flip ;nam,pwr,psx,ppmd,pwx
