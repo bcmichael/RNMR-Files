@@ -4,12 +4,10 @@
 allocx dly dly_t1 alloc_int
 allocx dly dly_moret1 alloc_int
 
-allocx dly dly_mix alloc_usr
-
+allocx dly dly_mix
 allocx ppmd ppmd_dec
-
 allocx pwx pwx_flip
-
+allocx pwx pwx_cwdec
 ; =============================
 ; 2nd dimension
 ; =============================
@@ -74,10 +72,6 @@ finobs
 ; ==========================
 ; DEFINE DECOUPLE PROGRAM
 ; ==========================
-
-; Allocations on Decouple Channel:
-allocx pwx pwx_cwdec
-
 use pwxpls cppls pwrh 1 * *  		;nam,pwr,psx,ppmd,pwx
 use pwxdly cpdly pwrh 1 * * 64	;nam,pwr,psx,ppmd,beg,size
 use pwxpls flipup pwrh 1 ppmd_dec pwx_cwdec
