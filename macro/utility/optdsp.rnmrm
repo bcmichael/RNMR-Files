@@ -1,0 +1,83 @@
+; Macro to display the results of an optimization
+; Shows a section of the spectrum from each block in a record side by side
+; The center of the section will be at cntr or the most recently moved cursor
+; The width will be the width of the spectrum divided by the number of blocks
+; Automatically processes time domain data before displaying it
+; Use /proc to specify a processing macro other than proc
+; Use /proc=-1 to not process time domain data
+
+macarg rec cntr
+ptra >>recnr >>temp
+dfllcl rec &recnr 'Source record'
+ptrb &rec >>ptr1 >>ptr2 ;save the block pointer
+
+set dsp off
+gb &rec 1
+set info lcl dom
+  show rec &rec 1 dom
+tst eq &dom time
+  dfllcl proc proc ;if unspecified default processing command is proc
+  tst eq &proc -1
+    remlcl proc ; if proc = -1 don't process
+  endtst
+  &proc ;process before getting spectral information
+endtst
+
+tst /false lcl cntr
+  msg "Set cursor to center of region to compare"
+  zo
+  crs >>crs1 >>crs2 ;get the current cursor positions
+  dfnlcl cntr &crs1
+endtst
+lim >>llim >>rlim ;get the spectrum limits
+
+set info lcl temp nblk ;get the number of blocks in the record
+ sizeb &rec 2
+
+dfnlcl /flt /ndec=3 sect (&llim-&rlim)/&nblk ;how wide a section to use
+dfnlcl /flt /ndec=3 rsect &cntr-(&sect/2)    ;right edge of the section
+dfnlcl /flt /ndec=3 lsect &cntr+(&sect/2)    ;left edge of the section
+dfnlcl /flt /ndec=3 lshft &llim-&lsect       ;shft to move section to left edge
+
+; setup buffer 2 with size of spectrum but all 0
+setv 0
+movv 1 2
+
+; setup to track largest area
+dfnlcl max -1e10 ;initially large negative number to account for baseline issues
+dfnlcl best 1    ;block with largest area
+
+do /lcl 1, &nblk, n
+  gb &rec &n
+  tst eq &dom time
+    &proc
+  endtst
+  
+  set info lcl area
+    intrg &lsect &rsect
+  calc &area &max gt >>bool ;is the area larger than max
+  tst eq &bool 1            ;if so update max and best
+    dfnlcl max &area
+    dfnlcl best &n
+  endtst
+  
+  setv 0 * &lsect ;set region left of section to 0
+  setv 0 &rsect ;set region right of section to 0
+  dfnlcl /flt /ndec=3 nshft &lshft-((&n-1)*&sect) ;amount to shift
+  shft &nshft ;shift section to final position
+  addv 1 2 ;add section to buffer 2
+enddo
+
+set info lcl first
+  show rec &rec 2 first
+set info lcl step
+  show rec &rec 2 step
+dfnlcl /flt /ndec=2 best_v (&best-1)*&step+&first
+
+movv 2 1 ;move final result back to buffer 1
+unit /freq >>funit
+msg "Displaying region from &rsect to &lsect &funit"
+msg "Block &best has the largest integrated area in the displayed region"
+msg "Block &best corresponds to a value of &best_v"
+ptrb &rec, &ptr1, &ptr2 ;reset the block pointer
+set dsp on
